@@ -1,0 +1,10 @@
+# Project dependencies
+.cache
+node_modules
+yarn-error.log
+
+# Build directory (uncomment the line below ONLY if you don't want to commit the build)
+# /public
+
+.DS_Store
+.vscode/
