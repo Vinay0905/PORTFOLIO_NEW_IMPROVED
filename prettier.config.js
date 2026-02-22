@@ -1,1 +1,4 @@
-module.exports = require('@upstatement/prettier-config');
+module.exports = {
+    plugins: [require('prettier-plugin-tailwindcss')],
+    tailwindStylesheet: './src/styles/global.css',
+};
