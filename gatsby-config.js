@@ -1,6 +1,7 @@
 const config = require('./src/config');
 
 module.exports = {
+    pathPrefix: '/PORTFOLIO_NEW_IMPROVED',
   siteMetadata: {
     title: 'Naga Vinay Avvaru',
     description:
