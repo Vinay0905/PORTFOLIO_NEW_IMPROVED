@@ -1,7 +1,7 @@
 const config = require('./src/config');
 
 module.exports = {
-    pathPrefix: '/PORTFOLIO_NEW_IMPROVED',
+  pathPrefix: '/PORTFOLIO_NEW_IMPROVED',
   siteMetadata: {
     title: 'Naga Vinay Avvaru',
     description:
@@ -30,7 +30,7 @@ module.exports = {
         icon: 'src/images/logo.png',
       },
     },
-    `gatsby-plugin-offline`,
+    // `gatsby-plugin-offline`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

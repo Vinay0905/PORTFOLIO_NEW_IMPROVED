@@ -11,6 +11,8 @@ const StyledHeroSection = styled.section`
   min-height: 100vh;
   height: 100vh;
   padding: 0;
+  position: relative;
+  overflow: hidden;
 
   @media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
     height: auto;
@@ -46,8 +48,27 @@ const StyledHeroSection = styled.section`
   }
 `;
 
+// Absolute layer that holds the Vanta canvas — sits behind all content
+const BirdsBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+`;
+
+// Keeps hero text above the animation
+const HeroContent = styled.div`
+  position: relative;
+  z-index: 2;
+  width: 100%;
+`;
+
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [BirdsComponent, setBirdsComponent] = useState(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -56,6 +77,16 @@ const Hero = () => {
     }
 
     const timeout = setTimeout(() => setIsMounted(true), navDelay);
+
+    // Dynamic import — SSR-safe, loads only in the browser
+    import('../VantaBirds')
+      .then(mod => {
+        setBirdsComponent(() => mod.default);
+      })
+      .catch(err => {
+        console.warn('VantaBirds failed to load:', err);
+      });
+
     return () => clearTimeout(timeout);
   }, []);
 
@@ -66,8 +97,8 @@ const Hero = () => {
     <>
       <p>
         I&apos;m an AI/ML &amp; Agentic AI specialist focused on building computer vision systems,
-        autonomous agent workflows, and production-grade MLOps pipelines. Currently pursuing B.E.
-        in ECE at{' '}
+        autonomous agent workflows, and production-grade MLOps pipelines. Currently pursuing B.E. in
+        ECE at{' '}
         <a href="https://www.stjosephs.ac.in/" target="_blank" rel="noreferrer">
           St. Joseph&apos;s Institute of Technology
         </a>
@@ -89,22 +120,32 @@ const Hero = () => {
 
   return (
     <StyledHeroSection>
-      {prefersReducedMotion ? (
-        <>
-          {items.map((item, i) => (
-            <div key={i}>{item}</div>
-          ))}
-        </>
-      ) : (
-        <TransitionGroup component={null}>
-          {isMounted &&
-            items.map((item, i) => (
-              <CSSTransition key={i} classNames="fadeup" timeout={loaderDelay}>
-                <div style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
-              </CSSTransition>
-            ))}
-        </TransitionGroup>
+      {/* Vanta BIRDS background — only rendered client-side after mount */}
+      {isMounted && BirdsComponent && (
+        <BirdsBackground>
+          <BirdsComponent />
+        </BirdsBackground>
       )}
+
+      {/* Hero text content — on top of birds */}
+      <HeroContent>
+        {prefersReducedMotion ? (
+          <>
+            {items.map((item, i) => (
+              <div key={i}>{item}</div>
+            ))}
+          </>
+        ) : (
+          <TransitionGroup component={null}>
+            {isMounted &&
+              items.map((item, i) => (
+                <CSSTransition key={i} classNames="fadeup" timeout={loaderDelay}>
+                  <div style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
+                </CSSTransition>
+              ))}
+          </TransitionGroup>
+        )}
+      </HeroContent>
     </StyledHeroSection>
   );
 };

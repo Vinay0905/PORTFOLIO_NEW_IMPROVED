@@ -17,7 +17,7 @@ const StyledHeader = styled.header`
   padding: 0px 50px;
   width: 100%;
   height: var(--nav-height);
-  background-color: rgba(10, 25, 47, 0.85);
+  background-color: rgba(248, 243, 237, 0.85); /* Changed from dark navy to new caramel white */
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;
@@ -38,7 +38,7 @@ const StyledHeader = styled.header`
       css`
         height: var(--nav-scroll-height);
         transform: translateY(0px);
-        background-color: rgba(10, 25, 47, 0.85);
+        background-color: rgba(248, 243, 237, 0.85); /* Changed for light theme */
         box-shadow: 0 10px 30px -10px var(--navy-shadow);
       `};
 
@@ -127,7 +127,7 @@ const StyledLinks = styled.div`
       margin: 0 5px;
       position: relative;
       counter-increment: item 1;
-      font-size: var(--fz-xs);
+      font-size: calc(var(--fz-xs) * 1.05); /* Increased 5% */
 
       a {
         padding: 10px;
@@ -136,7 +136,7 @@ const StyledLinks = styled.div`
           content: '0' counter(item) '.';
           margin-right: 5px;
           color: var(--green);
-          font-size: var(--fz-xxs);
+          font-size: calc(var(--fz-xxs) * 1.05); /* Increased 5% */
           text-align: right;
         }
       }
@@ -146,7 +146,7 @@ const StyledLinks = styled.div`
   .resume-button {
     ${({ theme }) => theme.mixins.smallButton};
     margin-left: 15px;
-    font-size: var(--fz-xs);
+    font-size: calc(var(--fz-xs) * 1.05); /* Increased 5% */
   }
 `;
 
